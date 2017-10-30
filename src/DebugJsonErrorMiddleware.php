@@ -4,6 +4,7 @@ namespace Blast\JsonError;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Throwable;
 use Whoops\Exception\Inspector;
 use Zend\Diactoros\Response\JsonResponse;
 
@@ -29,15 +30,21 @@ class DebugJsonErrorMiddleware
     }
 
 
-    public function __invoke($error, ServerRequestInterface $request, ResponseInterface $response, callable $next)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
+        try {
+            $response = $next($request, $response);
+            return $response;
+        } catch (Throwable $throwable) {
+        }
+
         $data = [
-            'type'    => get_class($error),
-            'message' => $error->getMessage(),
-            'file'    => $this->formatDir($error->getFile()) . ':' . $error->getLine()
+            'type'    => get_class($throwable),
+            'message' => $throwable->getMessage(),
+            'file'    => $this->formatDir($throwable->getFile()) . ':' . $throwable->getLine()
         ];
 
-        $inspector = new Inspector($error);
+        $inspector = new Inspector($throwable);
 
         $frameData = [];
         foreach ($inspector->getFrames() as $frame) {
@@ -50,7 +57,7 @@ class DebugJsonErrorMiddleware
 
         return new JsonResponse(
             ['error' => $data],
-            $this->getStatusCode($error, $response)
+            $this->getStatusCode($throwable, $response)
         );
     }
 
