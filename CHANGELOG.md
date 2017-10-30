@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 1.0.0 - 30.10.2017
+
+* New version for Expressive v2.0
+
 ## 0.2.1 - 3.07.2016
 
 * Add example configuration files
