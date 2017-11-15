@@ -17,9 +17,11 @@ matrix:
       env:
         - DEPS=locked
     - php: 7
+    - php: 7.1
       env:
         - DEPS=latest
         - CHECK_CS=true
+    - php: 7.2
     - php: hhvm
   allow_failures:
     - php: hhvm
