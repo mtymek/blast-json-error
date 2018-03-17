@@ -1,50 +1,47 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blast\Test\JsonError;
 
 use Blast\JsonError\JsonErrorMiddleware;
 use Exception;
-use PHPUnit_Framework_TestCase;
-use Zend\Diactoros\Response;
+use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\ServerRequest;
 
-class GetStatusCodeTraitTest extends PHPUnit_Framework_TestCase
+class GetStatusCodeTraitTest extends TestCase
 {
     public function testReadsStatusCodeFromException()
     {
         $middleware = new JsonErrorMiddleware();
-        $response = $middleware(new ServerRequest(), new Response(), function () {
-            throw new Exception("error", 502);
-        });
+        $response = $middleware->process(new ServerRequest(), $this->mockRequestHandlerThrowingException(502));
         $this->assertEquals(502, $response->getStatusCode());
     }
 
     public function testIgnoresExceptionCodeIfItDoestNotMatchHttpErrorCode()
     {
         $middleware = new JsonErrorMiddleware();
-        $response = $middleware(new ServerRequest(), new Response(), function () {
-            throw new Exception("error", 1000);
-        });
+        $response = $middleware->process(new ServerRequest(), $this->mockRequestHandlerThrowingException(1000));
         $this->assertEquals(500, $response->getStatusCode());
     }
 
-    public function testReadsStatusCodeFromPreviousResponse()
+    private function mockRequestHandlerThrowingException(int $code)
     {
-        $middleware = new JsonErrorMiddleware();
-        $originalResponse = (new Response())->withStatus(522);
-        $response = $middleware(new ServerRequest(), $originalResponse, function () {
-            throw new Exception();
-        });
-        $this->assertEquals(522, $response->getStatusCode());
-    }
+        return new class($code) implements RequestHandlerInterface {
+            private $code;
 
-    public function testIgnoresPreviousResponseCodeIfItDoestNotMatchHttpErrorCode()
-    {
-        $middleware = new JsonErrorMiddleware();
-        $originalResponse = (new Response())->withStatus(200);
-        $response = $middleware(new ServerRequest(), $originalResponse, function () {
-            throw new Exception();
-        });
-        $this->assertEquals(500, $response->getStatusCode());
+            public function __construct($code)
+            {
+                $this->code = $code;
+            }
+
+            public function handle(ServerRequestInterface $request): ResponseInterface
+            {
+                throw new Exception("error", $this->code);
+            }
+        };
     }
 }

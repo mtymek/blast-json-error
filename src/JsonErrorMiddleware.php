@@ -1,18 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blast\JsonError;
 
 use ErrorException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Throwable;
 use Zend\Diactoros\Response\JsonResponse;
 
-class JsonErrorMiddleware
+class JsonErrorMiddleware implements MiddlewareInterface
 {
     use GetStatusCodeTrait;
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         set_error_handler(function ($errno, $errstr, $errfile, $errline) {
             if (! (error_reporting() & $errno)) {
@@ -24,7 +28,7 @@ class JsonErrorMiddleware
         $throwable = null;
 
         try {
-            $response = $next($request, $response);
+            $response = $handler->handle($request);
             return $response;
         } catch (Throwable $throwable) {
         }
@@ -33,7 +37,7 @@ class JsonErrorMiddleware
 
         return new JsonResponse(
             "An error has occurred.",
-            $this->getStatusCode($throwable, $response)
+            $this->getStatusCode($throwable)
         );
     }
 }

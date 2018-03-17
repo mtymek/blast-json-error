@@ -1,23 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blast\Test\JsonError;
 
 use Blast\JsonError\DebugJsonErrorMiddleware;
 use Exception;
-use PHPUnit_Framework_TestCase;
-use Zend\Diactoros\Response;
+use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\ServerRequest;
 
-class DebugJsonErrorMiddlewareTest extends PHPUnit_Framework_TestCase
+class DebugJsonErrorMiddlewareTest extends TestCase
 {
     public function testReturnsJsonWithExceptionInformation()
     {
-        $exception = new Exception("Error");
         $middleware = new DebugJsonErrorMiddleware(true, dirname(__DIR__));
-        $response = $middleware(new ServerRequest(), new Response(), function () use ($exception) {
-            throw $exception;
-        });
+        $response = $middleware->process(new ServerRequest(), $this->mockRequestHandlerThrowingException());
         $json = json_decode($response->getBody()->__toString(), true);
-        $this->assertEquals('test/DebugJsonErrorMiddlewareTest.php:15', $json['error']['file']);
+        $this->assertEquals('test/DebugJsonErrorMiddlewareTest.php:30', $json['error']['file']);
+    }
+
+    private function mockRequestHandlerThrowingException()
+    {
+        return new class() implements RequestHandlerInterface {
+            public function handle(ServerRequestInterface $request): ResponseInterface
+            {
+                throw new Exception("error");
+            }
+        };
     }
 }
