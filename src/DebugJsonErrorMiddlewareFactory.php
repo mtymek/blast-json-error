@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blast\JsonError;
 
 use Interop\Container\ContainerInterface;
 
 class DebugJsonErrorMiddlewareFactory
 {
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container): DebugJsonErrorMiddleware
     {
         if (!$container->has('config')) {
             return new DebugJsonErrorMiddleware();
