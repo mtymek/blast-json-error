@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blast\Test\JsonError;
 
 use Blast\JsonError\JsonErrorMiddleware;

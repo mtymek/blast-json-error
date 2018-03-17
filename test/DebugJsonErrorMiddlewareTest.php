@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blast\Test\JsonError;
 
 use Blast\JsonError\DebugJsonErrorMiddleware;
@@ -17,7 +19,7 @@ class DebugJsonErrorMiddlewareTest extends TestCase
         $middleware = new DebugJsonErrorMiddleware(true, dirname(__DIR__));
         $response = $middleware->process(new ServerRequest(), $this->mockRequestHandlerThrowingException());
         $json = json_decode($response->getBody()->__toString(), true);
-        $this->assertEquals('test/DebugJsonErrorMiddlewareTest.php:28', $json['error']['file']);
+        $this->assertEquals('test/DebugJsonErrorMiddlewareTest.php:30', $json['error']['file']);
     }
 
     private function mockRequestHandlerThrowingException()

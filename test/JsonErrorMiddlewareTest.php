@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blast\Test\JsonError;
 
 use Blast\JsonError\JsonErrorMiddleware;
@@ -8,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
 
 class JsonErrorMiddlewareTest extends TestCase
