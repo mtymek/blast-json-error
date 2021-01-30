@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.3",
         "psr/http-message-implementation": "^1.0",
         "psr/http-server-middleware": "^1.0"
     },

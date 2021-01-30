@@ -10,20 +10,17 @@ cache:
 matrix:
   fast_finish: true
   include:
-    - php: 7.1
+    - php: 7.3
+    - php: 7.4
       env:
         - DEPS=lowest
-    - php: 7.1
+    - php: 7.4
       env:
         - DEPS=locked
-    - php: 7.1
+    - php: 7.4
       env:
         - DEPS=latest
         - CHECK_CS=true
-    - php: 7.2
-    - php: hhvm
-  allow_failures:
-    - php: hhvm
 
 before_install:
   - travis_retry composer self-update
