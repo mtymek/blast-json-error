@@ -1,7 +1,7 @@
 Blast\JsonError
 ===============
 
-[![Build Status](https://travis-ci.org/mtymek/blast-json-error.svg?branch=master)](https://travis-ci.org/mtymek/blast-json-error)
+[![Build Status](https://github.com/mtymek/mtymek-blast-json-error/workflows/Continuous%20Integration/badge.svg)](https://github.com/mtymek/mtymek-blast-json-error/actions?query=workflow%3A"Continuous+Integration")
 
 **JSON error handler middleware.**
 
