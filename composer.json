@@ -1,6 +1,7 @@
 {
     "name": "mtymek/blast-json-error",
     "license": "BSD-2-Clause",
+    "description": "A PSR-15 middleware for rendering JSON responses for exceptions.",
     "authors": [
         {
             "name": "Mateusz Tymek",

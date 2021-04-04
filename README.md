@@ -5,6 +5,8 @@ Blast\JsonError
 
 **JSON error handler middleware.**
 
+A PSR-15 middleware for rendering JSON responses for exceptions.
+
 ## Installation
 
 Install this library using composer:
