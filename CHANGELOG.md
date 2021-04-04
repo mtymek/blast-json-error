@@ -1,10 +1,11 @@
 Changelog
 =========
 
-## 2.1.0 - XXXX
+## 2.1.0 - 4.04.2021
 
 * Move from TravisCI to GitHub Actions
 * Update test matrix to support PHP 7.3 & PHP 7.4
+* Update dependencies
 
 ## 2.0.0 - 18.03.2018
 
