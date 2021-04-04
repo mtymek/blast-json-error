@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## 2.1.0 - XXXX
+
+* Move from TravisCI to GitHub Actions
+* Update test matrix to support PHP 7.3 & PHP 7.4
+
 ## 2.0.0 - 18.03.2018
 
 * Middleware is now based on PSR-15 standard
