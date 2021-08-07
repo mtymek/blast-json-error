@@ -6,7 +6,7 @@
     </include>
   </coverage>
   <testsuites>
-    <testsuite name="Blast\\Test\\JsonError">
+    <testsuite name="BlastTest\\JsonError">
       <directory>./test</directory>
     </testsuite>
   </testsuites>
