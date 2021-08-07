@@ -3,7 +3,7 @@ Changelog
 
 ## 3.0 - 07.08.02021
 * Move from Zend Framework to Laminas
-* Add support for PHP 8
+* Add support for PHP 8, drop support for v7.3
 
 ## 2.1.0 - 4.04.2021
 
