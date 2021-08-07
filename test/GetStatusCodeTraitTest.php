@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Blast\Test\JsonError;
+namespace BlastTest\JsonError;
 
 use Blast\JsonError\JsonErrorMiddleware;
 use Exception;
@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\ServerRequest;
+use Laminas\Diactoros\ServerRequest;
 
 class GetStatusCodeTraitTest extends TestCase
 {
